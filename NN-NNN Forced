@@ -1,0 +1,254 @@
+using ITensors, ITensorMPS
+using LinearAlgebra
+using Random
+using DataFrames,CSV
+using DelimitedFiles
+using Dates
+
+t1 = now()
+IDM = [1 0; 0 1]
+
+I1 = [1 0 + 0im; 0 1]
+s_x = [0 1 + 0im; 1 0]
+s_y = [0 -im; im 0]
+s_z = [1 + 0im 0; 0 -1]
+
+paulis = [I1,s_x,s_y,s_z]
+
+s1x = (1/sqrt(2))*[0 1 0; 1 0 1; 0 1 0]
+s1y = (1/(sqrt(2)*im))*[0 1 0; -1 0 1; 0 -1 0]
+s1z = [1 0 0; 0 0 0; 0 0 -1]
+Id = [1 0 0; 0 1 0; 0 0 1]
+
+tau = 50
+s1dots2 = kron(s1x,Id)*kron(Id,s1x) + kron(s1y,Id)*kron(Id,s1y) + kron(s1z,Id)*kron(Id,s1z)
+Paklt2 = (1/2)*s1dots2 + (1/6)*(s1dots2)^2 + (1/3)*kron(Id,Id)
+fpaklt = exp(-Paklt2*tau)
+
+function circ_no(i,L)
+    if i <= L
+        return(i)
+    elseif i == L + 1
+        return(1)
+    elseif i == L + 2
+        return(2)
+    end
+end
+
+function MPS_negativity_and_entanglement(psi,b)
+    psi = orthogonalize(psi,b)
+    if b==1
+      U,S,V = svd(psi[b], (siteind(psi,b),))
+    else
+      U,S,V = svd(psi[b], (linkind(psi, b-1), siteind(psi,b)))
+    end
+    SvN = 0.0    
+    ent_negt = 0.0
+    for n=1:size(S)[1]
+        p = S[n,n]^2
+        SvN -= p * log2(p)
+        for j=n+1:size(S)[1]
+            ent_negt = ent_negt + abs(S[n,n]*S[j,j])
+        end
+    end
+    return([SvN,ent_negt])
+end
+
+function ITensors.op(::OpName"SZ1", ::SiteType"S=1", s1::Index)
+        mat = [1 0 0; 0 0 0; 0 0 -1]
+        return itensor(mat,s1',s1)
+end
+
+function ITensors.op(::OpName"fpaklt", ::SiteType"S=1", s1::Index, s2::Index)
+        mat = fpaklt
+        return itensor(mat,s2',s1',s2,s1)
+end
+
+function ITensors.op(::OpName"eipSZ1", ::SiteType"S=1", s1::Index)
+        mat = exp(im*pi*[1 0 0; 0 0 0; 0 0 -1])
+        return itensor(mat,s1',s1)
+end
+
+# Global cache for ITensor operator objects
+const op_cache2 = Dict{Tuple, ITensor}()
+
+"""
+get_op(name::String, i::Int, sites, j::Union{Int,Nothing}) -> ITensor
+
+Fetches or constructs an ITensor operator on site i (or pair i, j),
+with caching to avoid redundant construction.
+"""
+function get_op(name::String, i::Int, sites, j::Union{Int,Nothing}=nothing)
+    key = isnothing(j) ? (name, i) : (name, i, j)
+    return get!(op_cache2, key) do
+        isnothing(j) ?
+            op(name, sites, i) :
+            op(name, sites, i, j)
+    end
+end
+
+function exp_SZ_proj(psi, i, cutoff, sites)
+    op = get_op("eipSZ1", i, sites)
+    return apply([op], psi; cutoff)
+end
+
+function SZ_proj(psi, i, cutoff, sites)
+    op = get_op("SZ1", i, sites)
+    return apply([op], psi; cutoff)
+end
+
+function AKLT_proj(psi, i, j, cutoff, sites, L)
+    op = get_op("fpaklt", i, sites, j)
+    psi = apply([op], psi; cutoff)
+    return psi / sqrt(inner(psi, psi))
+end
+
+function mean(data)
+    return(sum(data)/length(data))
+end
+
+ITensors.state(::StateName"+Z1",::SiteType"S=1") = [1,1,1]
+
+function ket_sop(psi::MPS, i::Int, j::Int, cutoff::Float64, sites)
+    psi_proj = psi
+    for q in (i+1):(j-1)
+        op = get_op("eipSZ1", q, sites)
+        psi_proj = apply([op], psi_proj; cutoff)
+    end
+    psi_proj = apply([get_op("SZ1", i, sites)], psi_proj; cutoff)
+    psi_proj = apply([get_op("SZ1", j, sites)], psi_proj; cutoff)
+
+    return inner(psi, psi_proj)
+end
+
+function ket_nnn_sop(psi::MPS, i::Int, j::Int, cutoff::Float64, sites)
+    psi_proj = psi
+    for q in (i+2):(j-2)
+        op = get_op("eipSZ1", q, sites)
+        psi_proj = apply([op], psi_proj; cutoff)
+    end
+    for q in (i, i+1, j-1, j)
+        op = get_op("SZ1", q, sites)
+        psi_proj = apply([op], psi_proj; cutoff)
+    end
+
+    return inner(psi_proj, psi)
+end
+
+function runy_AKLT(el,pnn,cutoff,timesteps,iterations,periodic,self_average_space,self_av_space_it,ti,tf,interval,filename)
+    seed = MersenneTwister(1)
+    t1 = now()
+    L = el
+    sites = siteinds("S=1",L)
+    nspins = L
+    nspin = nspins 
+    zer = [0 1 0]
+    mins = [1 0 0] 
+    plu = [0 0 1]
+###################
+    Ldiv2 = div(L, 2)
+    Ldiv4 = div(L, 4)
+    total_steps = tf - ti + 1
+    if total_steps % interval != 0
+        error("Error: (tf - ti + 1) = $total_steps is not divisible by interval = $interval")
+    end
+    norm1 = iterations * div(tf-ti+1,interval)
+###################
+    OP_nnL2m1 = zeros(Float64,norm1,self_av_space_it)
+    OP_nnnL2m1 = zeros(Float64,norm1,self_av_space_it)    
+###################
+    OP_nnL2 = zeros(Float64,norm1,self_av_space_it)
+    OP_nnnL2 = zeros(Float64,norm1,self_av_space_it)
+###################
+    if el % 4 == 0
+        OP_nnL4 = zeros(Float64,norm1,self_av_space_it)
+        OP_nnnL4 = zeros(Float64,norm1,self_av_space_it)
+    end
+###################
+    negativity = zeros(Float64,norm1)
+    bond_dimen_time = zeros(Float64,norm1)
+    Btf = zeros(Float64,norm1)
+###################
+    sites = siteinds("S=1",L)
+    es = 0 
+    quando = 0 
+###################
+    for r = 1:iterations        
+        psi = MPS(ComplexF64,sites,["+Z1" for n in 1:L]) 
+        for i=1:timesteps
+            t2 = now()
+            println([i, t2 - t1])
+            if (t2 - t1) > Millisecond(700000)
+                writedlm(string(filename, "Reyni1flop"), "exit!", ", ")
+                return "exit!"
+            end
+            # --- compact sweep over the chain -----------------------------------------
+            for q in 1:L
+            
+                p = rand(seed)
+                j = q + (p < pnn ? 1 : 2)          # nearest‑ or next‑nearest neighbour
+            
+                # Wrap the right‑hand site if we are periodic; otherwise just continue
+                # (when j > L, the open chain has no target).
+                if periodic
+                    j = circ_no(j,L)         # simple modular wrap
+                elseif j > L
+                    continue                       # open chain: skip this q
+                end
+            
+                psi = AKLT_proj(psi, q, j, cutoff, sites,L)  # no need for circ_no any more
+            end            
+            if ti ≤ i ≤ tf && (i - ti) % interval == 0
+                if self_average_space == true 
+                    es = es + 1
+                    for k = 1:self_av_space_it
+                        OP_nnL2[es,k]    = real(ket_sop(psi, k, Ldiv2 + k, cutoff, sites))
+                        OP_nnnL2[es,k]   = real(ket_nnn_sop(psi, k, Ldiv2 + k, cutoff, sites))
+    
+                        OP_nnL2m1[es,k]  = real(ket_sop(psi, k, Ldiv2 + k - 1, cutoff, sites))
+                        OP_nnnL2m1[es,k] = real(ket_nnn_sop(psi, k, Ldiv2 + k - 1, cutoff, sites))
+    
+                        if L % 4 == 0
+                            OP_nnL4[es,k] = real(ket_sop(psi, k, Ldiv4 + k, cutoff, sites))
+                            OP_nnnL4[es,k] = real(ket_nnn_sop(psi, k, Ldiv4 + k, cutoff, sites))
+                        end
+                    end
+                else
+                    es = es + 1
+                    OP_nnL2[es,1] = real(ket_sop(psi, 1, Ldiv2 + 1, cutoff, sites))
+                    OP_nnnL2[es,1] = real(ket_nnn_sop(psi, 1, Ldiv2 + 1, cutoff, sites))
+    
+                    OP_nnL2m1[es,1] = real(ket_sop(psi, 1, Ldiv2, cutoff, sites))
+                    OP_nnnL2m1[es,1] = real(ket_nnn_sop(psi, 1, Ldiv2, cutoff, sites))
+    
+                    if L % 4 == 0
+                        OP_nnL4[es,1] = real(ket_sop(psi, 1, Ldiv4 + 1, cutoff, sites))
+                        OP_nnnL4[es,1] = real(ket_nnn_sop(psi, 1, Ldiv4 + 1, cutoff, sites))
+                    end
+                end
+                quando = quando + 1
+                temp = MPS_negativity_and_entanglement(psi,Int64(L/2))
+                Btf[quando] += temp[1]/iterations
+                negativity[quando] += temp[2]/iterations
+                bond_dimen_time[quando] += mean(linkdims(psi))/iterations
+            end
+#            t3 = now()
+#            println(t3-t2)
+        end
+    end
+    writedlm(string(filename,"tau=",tau,"pn=",pnn,"cutoff=",cutoff,"it=",iterations,"_tf=",timesteps,"_sa=",self_average_space,"PBC=",periodic,"it_OP_nnL2_time"),OP_nnL2, ", ")
+    writedlm(string(filename,"tau=",tau,"pn=",pnn,"cutoff=",cutoff,"it=",iterations,"_tf=",timesteps,"_sa=",self_average_space,"PBC=",periodic,"it_OP_nnnL2_time"),OP_nnnL2, ", ")
+    writedlm(string(filename,"tau=",tau,"pn=",pnn,"cutoff=",cutoff,"it=",iterations,"_tf=",timesteps,"_sa=",self_average_space,"PBC=",periodic,"it_OP_nnL2m1_time"),OP_nnL2m1, ", ")
+    writedlm(string(filename,"tau=",tau,"pn=",pnn,"cutoff=",cutoff,"it=",iterations,"_tf=",timesteps,"_sa=",self_average_space,"PBC=",periodic,"it_OP_nnnL2m1_time"),OP_nnnL2m1, ", ")
+    if L % 4 == 0 
+	     writedlm(string(filename,"tau=",tau,"pn=",pnn,"cutoff=",cutoff,"it=",iterations,"_tf=",timesteps,"_sa=",self_average_space,"PBC=",periodic,"it_OP_nnL4_time"),OP_nnL4, ", ")
+	     writedlm(string(filename,"tau=",tau,"pn=",pnn,"cutoff=",cutoff,"it=",iterations,"_tf=",timesteps,"_sa=",self_average_space,"PBC=",periodic,"it_OP_nnnL4_time"),OP_nnnL4, ", ")
+    end
+    writedlm(string(filename,"tau=",tau,"pn=",pnn,"cutoff=",cutoff,"it=",iterations,"_tf=",timesteps,"_sa=",self_average_space,"PBC=",periodic,"it_Btf_time"),Btf, ", ")
+    writedlm(string(filename,"tau=",tau,"pn=",pnn,"cutoff=",cutoff,"it=",iterations,"_tf=",timesteps,"_sa=",self_average_space,"PBC=",periodic,"bond_time"),bond_dimen_time, ", ")
+    writedlm(string(filename,"tau=",tau,"pn=",pnn,"cutoff=",cutoff,"it=",iterations,"_tf=",timesteps,"_sa=",self_average_space,"PBC=",periodic,"neg_time"),negativity, ", ")
+end
+
+runy_AKLT(initialization,"tada")
+t2 = now()
+println(t2-t1)
