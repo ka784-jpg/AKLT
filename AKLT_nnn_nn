@@ -1,0 +1,217 @@
+using ITensors
+using LinearAlgebra
+using Random
+using DelimitedFiles
+using Dates
+using ITensorMPS   
+
+# ==============================================================================
+# 1. PHYSICAL OPERATOR DEFINITIONS
+# ==============================================================================
+
+# Using a regular variable instead of const to allow re-running in Jupyter/REPL
+FPAKLT_MAT = let
+    Id = [1.0 0 0; 0 1 0; 0 0 1]
+    s1x = (1/sqrt(2)) * [0 1 0; 1 0 1; 0 1 0]
+    s1y = (1/(sqrt(2)*im)) * [0 1 0; -1 0 1; 0 -1 0]
+    s1z = [1.0 0 0; 0 0 0; 0 0 -1]
+    
+    # Heisenberg interaction: S1 ⋅ S2
+    s1dots2 = kron(s1x, Id) * kron(Id, s1x) + 
+              kron(s1y, Id) * kron(Id, s1y) + 
+              kron(s1z, Id) * kron(Id, s1z)
+    
+    # AKLT Hamiltonian term: P2 = 1/2(S1⋅S2) + 1/6(S1⋅S2)^2 + 1/3
+    Paklt2 = (1/2)*s1dots2 + (1/6)*(s1dots2)^2 + (1/3)*kron(Id, Id)
+    tau_val = 50.0 
+    exp(-Paklt2 * tau_val)
+end
+
+# Stable ITensors Operator Dispatch
+function ITensors.op(::OpName"SZ1", ::SiteType"S=1", s::Index)
+    return itensor([1.0 0 0; 0 0 0; 0 0 -1], s', s)
+end
+
+function ITensors.op(::OpName"fpaklt", ::SiteType"S=1", s1::Index, s2::Index)
+    return itensor(FPAKLT_MAT, s2', s1', s2, s1)
+end
+
+function ITensors.op(::OpName"eipSZ1", ::SiteType"S=1", s::Index)
+    mat = exp(im * pi * [1.0 0 0; 0 0 0; 0 0 -1])
+    return itensor(mat, s', s)
+end
+
+ITensors.state(::StateName"+Z1", ::SiteType"S=1") = [1.0, 1.0, 1.0]
+
+# ==============================================================================
+# 2. CORE UTILITIES & CACHING
+# ==============================================================================
+
+# Cache to store ITensor objects for the propagator to speed up apply()
+const OP_CACHE = Dict{Tuple, ITensor}()
+
+function get_cached_op(name::String, i::Int, sites, j::Union{Int,Nothing}=nothing)
+    key = isnothing(j) ? (name, i) : (name, i, j)
+    return get!(OP_CACHE, key) do
+        isnothing(j) ? op(name, sites, i) : op(name, sites, i, j)
+    end
+end
+
+function AKLT_proj(psi, i, j, cutoff, sites)
+    gate = get_cached_op("fpaklt", i, sites, j)
+    psi = apply(gate, psi; cutoff)
+    normalize!(psi)
+    return psi
+end
+
+function MPS_entanglement(psi, b)
+    psi = orthogonalize(psi, b)
+    # SVD across bond b to get entanglement spectrum
+    spec = svd(psi[b], (linkind(psi, b-1), siteind(psi, b)))
+    S = spec.S
+    SvN = 0.0
+    for n in 1:dim(S, 1)
+        p = S[n, n]^2
+        if p > 1e-16 SvN -= p * log2(p) end
+    end
+    return SvN
+end
+
+# Optimization for PBC: Maps virtual line to physical "zigzag" to minimize bond growth
+function forward_perm(n::Int)
+    perm = Vector{Int}(undef, n)
+    left, right, k = 1, n, 1
+    while left <= right
+        perm[k] = left; k += 1; left += 1
+        if left <= right
+            perm[k] = right; k += 1; right -= 1
+        end
+    end
+    return perm
+end
+
+position_map(n::Int) = invperm(forward_perm(n))
+circ_no(i, L) = ((i - 1) % L) + 1
+
+# ==============================================================================
+# 3. MEASUREMENT INFRASTRUCTURE
+# ==============================================================================
+
+struct MeasurementCache
+    nnL2::Vector{MPO}
+    nnnL2::Vector{MPO}
+    nnL2m1::Vector{MPO}
+    nnnL2m1::Vector{MPO}
+end
+
+function build_measurement_cache(L, sites, virt_to_phys, self_av_space_it)
+    Ldiv2, Ldiv4 = div(L, 2), div(L, 4)
+    
+    function make_mpo(iv, jv, is_nnn)
+        os = OpSum()
+        if !is_nnn
+            # String: SZ1(i) * [Π eipSZ1(q)] * SZ1(j)
+            ops = Any["SZ1", virt_to_phys[iv]]
+            for q in (iv+1):(jv-1) push!(ops, "eipSZ1", virt_to_phys[q]) end
+            push!(ops, "SZ1", virt_to_phys[jv])
+            os += 1.0, ops...
+        else
+            # NNN String: SZ1(i)SZ1(i+1) * [Π eipSZ1(q)] * SZ1(j-1)SZ1(j)
+            ops = Any["SZ1", virt_to_phys[iv], "SZ1", virt_to_phys[iv+1]]
+            for q in (iv+2):(jv-2) push!(ops, "eipSZ1", virt_to_phys[q]) end
+            push!(ops, "SZ1", virt_to_phys[jv-1], "SZ1", virt_to_phys[jv])
+            os += 1.0, ops...
+        end
+        return MPO(os, sites)
+    end
+
+    return MeasurementCache(
+        [make_mpo(Ldiv4+k, Ldiv4+Ldiv2+k, false) for k in 1:self_av_space_it],
+        [make_mpo(Ldiv4+k, Ldiv4+Ldiv2+k, true)  for k in 1:self_av_space_it],
+        [make_mpo(Ldiv4+k, Ldiv4+Ldiv2+k-1, false) for k in 1:self_av_space_it],
+        [make_mpo(Ldiv4+k, Ldiv4+Ldiv2+k-1, true)  for k in 1:self_av_space_it]
+    )
+end
+
+# ==============================================================================
+# 4. MAIN SIMULATION
+# ==============================================================================
+
+function runy_AKLT(L, pnn, cutoff, timesteps, iterations, periodic, self_av_space_it, ti, tf, interval, filename)
+    t_start = now()
+    sites = siteinds("S=1", L)
+    virt_to_phys = position_map(L)
+    Ldiv2 = div(L, 2)
+
+    mpo_cache = build_measurement_cache(L, sites, virt_to_phys, self_av_space_it)
+
+    # Setup storage dimensions
+    nmeas = div(tf - ti, interval) + 1
+    norm_cols = iterations * self_av_space_it + 1
+    times = collect(ti:interval:tf)
+
+    # Helper to initialize matrices with a time column
+    init_mat() = (m = zeros(Float64, nmeas, norm_cols); m[:, 1] .= times; m)
+    
+    OP_nnL2    = init_mat()
+    OP_nnnL2   = init_mat()
+    OP_nnL2m1  = init_mat()
+    OP_nnnL2m1 = init_mat()
+    
+    Btf = zeros(Float64, nmeas, iterations + 1); Btf[:, 1] .= times
+    bond_dims = copy(Btf)
+
+    for r in 1:iterations
+        println("Starting Iteration $r...")
+        psi = randomMPS(sites; linkdims=50)
+        local_meas_idx = 0
+        
+        for i in 1:timesteps
+            # Check for 23-hour walltime limit
+            if (now() - t_start) > Millisecond(82_800_000)
+                writedlm(filename * "_TIMEOUT.txt", "Early exit due to walltime.")
+                return "Timeout exit"
+            end
+
+            # --- DYNAMICS ---
+            iv = circ_no(i, L)
+            step = (rand() < pnn ? 1 : 2)
+            jv = periodic ? circ_no(i + step, L) : (iv + step)
+
+            if periodic || jv <= L
+                psi = AKLT_proj(psi, virt_to_phys[iv], virt_to_phys[jv], cutoff, sites)
+            end
+
+            # --- MEASUREMENTS ---
+            if ti <= i <= tf && (i - ti) % interval == 0
+                local_meas_idx += 1
+                base_col = 1 + (r - 1) * self_av_space_it
+                
+                # Use inner(psi, MPO, psi) for efficient string correlation calculation
+                for k in 1:self_av_space_it
+                    col = base_col + k
+                    OP_nnL2[local_meas_idx, col]    = real(inner(psi, mpo_cache.nnL2[k], psi))
+                    OP_nnnL2[local_meas_idx, col]   = real(inner(psi, mpo_cache.nnnL2[k], psi))
+                    OP_nnL2m1[local_meas_idx, col]  = real(inner(psi, mpo_cache.nnL2m1[k], psi))
+                    OP_nnnL2m1[local_meas_idx, col] = real(inner(psi, mpo_cache.nnnL2m1[k], psi))
+                end
+
+                Btf[local_meas_idx, r + 1] = MPS_entanglement(psi, Ldiv2)
+                bond_dims[local_meas_idx, r + 1] = maximum(linkdims(psi))
+            end
+        end
+    end
+
+    # --- FINAL SAVING BLOCK ---
+    # ----------------------------------------------------------------------
+    header = string("tau=", 50, "pn=", pnn, "cutoff=", cutoff,
+                    "it=", iterations, "_tf=", timesteps,
+                    "_sa=", self_av_space_it, "PBC=", periodic)
+
+    writedlm(filename * header * "_OP_nnL2_sat",    OP_nnL2,    ", ")
+    writedlm(filename * header * "_OP_nnnL2_sat",   OP_nnnL2,   ", ")
+    writedlm(filename * header * "_OP_nnL2m1_sat",  OP_nnL2m1,  ", ")
+    writedlm(filename * header * "_OP_nnnL2m1_sat", OP_nnnL2m1, ", ")
+    writedlm(filename * header * "_Btf_sat",        Btf,             ", ")
+    writedlm(filename * header * "_bond_sat",       bond_dimen_time, ", ")
+end
