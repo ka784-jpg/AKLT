@@ -1,0 +1,58 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  statevector:
+    name: Statevector and example (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    env:
+      JULIA_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      JULIA_PKG_PRECOMPILE_AUTO: '0'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: julia-actions/setup-julia@4c0cb0fce8556fdb04a90347310e5db8b1f98fb9 # v2
+        with:
+          version: '1.12.6'
+      - name: Install lightweight environment
+        run: julia --project=examples --startup-file=no -e 'using Pkg; Pkg.instantiate()'
+      - name: Parse archived Julia sources
+        run: julia --startup-file=no tests/parse_sources.jl
+      - name: Check projectors, trajectories, and entropy conventions
+        run: julia --project=examples --startup-file=no tests/statevector_smoke.jl
+      - name: Run README command
+        run: julia --project=examples --startup-file=no examples/quickstart.jl
+      - name: Check reference output and failure cases
+        run: julia --project=examples --startup-file=no tests/quickstart_smoke.jl
+      - name: Verify source and figure integrity
+        run: python tests/repository_integrity.py
+
+  mps:
+    name: Small MPS trajectories
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      JULIA_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      JULIA_PKG_PRECOMPILE_AUTO: '0'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: julia-actions/setup-julia@4c0cb0fce8556fdb04a90347310e5db8b1f98fb9 # v2
+        with:
+          version: '1.12.6'
+      - name: Install full locked environment
+        run: julia --project=. --startup-file=no -e 'using Pkg; Pkg.instantiate()'
+      - name: Test TT and dimer MPS runs
+        run: julia --project=. --startup-file=no --compiled-modules=no --compile=min -O0 tests/mps_smoke.jl

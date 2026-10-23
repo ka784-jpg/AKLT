@@ -1,77 +1,132 @@
-# Measurement-Only Dynamical Phase Transitions in Spin-1 Chains
+# AKLT: Measurement-Only Spin-1 Dynamics
 
-Julia simulation sources associated with the AKLT manuscript (arXiv:2609.26941).
-This collection contains the underlying MPS and exact-statevector simulations,
-not the Python figure-generation notebooks or the numerical output archives.
+[![Tests](https://github.com/ka784-jpg/AKLT/actions/workflows/tests.yml/badge.svg)](https://github.com/ka784-jpg/AKLT/actions/workflows/tests.yml)
+[![Code license: MIT](https://img.shields.io/badge/code_license-MIT-blue.svg)](LICENSE)
 
-The two original root files, `AKLT_nnn_nn` and `NN-NNN Forced`, are retained
-unchanged as historical implementations. Start with `simulations/` for the
-campaign sources collected for the current paper.
+Julia simulations of how competing local projections change topological order
+and entanglement in a quantum spin chain. The repository contains the underlying
+matrix product state (MPS) and exact-statevector simulation sources, a small
+reproducible example, and tests against independent dense calculations.
 
-## What is included
+**Paper:** Kemal Aziz, Haining Pan, and J. H. Pixley,
+[*Measurement-Only Dynamical Phase Transitions in Spin-1 Chains*](https://arxiv.org/abs/2609.26941).
 
-| Directory | Simulation |
-| --- | --- |
-| `simulations/mps/trivial/` | NN AKLT versus on-site trivial projection; stationary observables and gate-time dynamics |
-| `simulations/mps/dimer/` | NN AKLT versus dimer projection; string order, dimer order, sector-resolved entropy, Binder samples, and dynamics |
-| `simulations/mps/bond_dimension/` | Bond dimensions for the trivial, dimer, and NN-NNN models |
-| `simulations/mps/fidelity/` | Preparation fidelity in the three endpoint limits; fixed-product and random-MPS initializations are separate runners |
-| `simulations/statevector/static/` | NN-NNN stationary observables, including entropy |
-| `simulations/statevector/order/` | NN and NNN string-order sampling without entropy SVDs |
-| `simulations/statevector/dynamics/` | Gate-resolved NN-NNN relaxation used for dynamical scaling |
-| `simulations/statevector/relaxation/` | Later saturation campaigns, including multiple entropy cuts |
-| `simulations/statevector/renyi/` | Multiple Renyi indices from a shared Schmidt spectrum |
+[Run an example](#quickstart) | [Physics and algorithms](docs/SCIENCE.md) |
+[Paper figures](docs/RESULTS.md) | [Reproducibility](docs/REPRODUCIBILITY.md) |
+[Simulation interfaces](RUNNING.md)
 
-See [FIGURE_PROVENANCE.md](FIGURE_PROVENANCE.md) for the figure-to-code mapping,
-campaign evidence, and remaining historical-provenance limitations.
+![Paper Fig. 4: NN and NNN string-order diagnostics and finite-size collapses.](docs/figures/fig04_string_order.png)
 
-## Conventions
+**What the calculation probes.** Competing nearest-neighbor (NN) and
+next-nearest-neighbor (NNN) AKLT projectors produce finite-size signatures
+consistent with an extended critical regime between two distinct endpoint
+states. The figure is from the paper, not from the small example below.
+[Interpretation, original PDF, and source mapping](docs/RESULTS.md#string-order-and-phase-boundaries-figure-4).
 
-- The physical sites are spin-1 qutrits. These simulations use forced,
-  normalized projections, not Born-rule sampling of the projector outcomes.
-- Most runners take **`p_nn`**, the probability of choosing the NN AKLT
-  projector. Thus `p_nnn = 1 - p_nn`, `p_D = 1 - p_nn`, and
-  `p_TT = 1 - p_nn` in the respective competing-projector models.
-- Stationary runners count complete sweeps. Gate-time runners count individual
-  update slots. Check the runner before comparing time axes; one round has `L`
-  slots.
-- Preserve the signed trajectory observables. The paper's absolute-value SOP
-  convention is applied to the ensemble estimate, not separately to every
-  trajectory before averaging.
-- Entropy log bases differ between outputs. The Renyi worker explicitly writes
-  both `S_bits` and `S_nats`.
+## Quickstart
 
-## Setup
-
-Use Julia 1.11 or later. From this repository:
+Install [Julia](https://julialang.org/downloads/) **1.12.6** and Git, then run
+these commands in a terminal. They work in PowerShell and POSIX shells.
 
 ```sh
-julia --project=. -e 'using Pkg; Pkg.instantiate()'
-julia --project=. --threads=1 tests/statevector_smoke.jl
+git clone https://github.com/ka784-jpg/AKLT.git
+cd AKLT
+julia --project=examples -e 'using Pkg; Pkg.instantiate()'
+julia --project=examples --threads=1 examples/quickstart.jl
 ```
 
-The local `QuantumCircuitsMPS2` dependency snapshot is included under `vendor/`
-with its original BSD 3-Clause license and attribution. It includes its own
-circuit-display support because that is part of the package's include graph;
-no paper plotting pipeline is included. This dependency snapshot is not a claim
-that every historical cluster run used byte-identical package files.
+The lightweight environment installs `DelimitedFiles`, not the MPS stack.
+The first Julia run includes compilation; the simulation itself is small:
+10 spin-1 sites, 24 sweeps, one trajectory, and seed `1234`.
+No cluster, GPU, credentials, or external datasets are required.
 
-No script here submits cluster jobs. Full production runs can be expensive:
-statevector memory grows as `3^L`, and MPS bond dimensions can grow rapidly.
-Start with the small examples in [RUNNING.md](RUNNING.md).
-Local smoke-test results and their limits are recorded in
-[VALIDATION.md](VALIDATION.md).
+The run creates `results/quickstart/` containing:
 
-## Preservation and scope
+| Output | Meaning |
+| --- | --- |
+| `summary.csv` | Five sampled sweeps, signed spatial means, and their absolute values |
+| `samples.csv` | All 25 spatial samples with sweep, origin, seed, and NN/NNN observables |
+| `metadata.toml` | Parameters, conventions, Julia version, and simulation-source SHA256 |
+| `raw/` | The four unchanged-format outputs of the archived simulation engine |
 
-The simulation algorithms have not been refactored. Four old template launch
-lines were replaced by comments, and two bond-dimension templates no longer
-activate a cluster-specific environment. Original file hashes are recorded in
-[SOURCE_MANIFEST.json](SOURCE_MANIFEST.json). Other copied source files are
-unchanged. Added tests and documentation are separate from those sources.
+For the default configuration, the final sweep has
+`mean_nn` approximately `-0.03832792559` and `mean_nnn` approximately
+`0.03222625613`. The [reference CSV](examples/expected/summary.csv) and automated
+test check the full output with numerical tolerances.
 
-This is a source collection, not a complete bit-for-bit reproduction bundle:
-legacy datasets, production seed ledgers, analysis/fit choices, and some exact
-historical dependency versions are not included. No new license has been
-assigned to the research scripts; the dependency license applies only to the
-vendored package.
+Reruns do **not** overwrite existing output. Choose a fresh directory:
+
+```sh
+julia --project=examples examples/quickstart.jl --output results/another_run
+julia --project=examples tests/quickstart_smoke.jl
+julia --project=examples tests/statevector_smoke.jl
+```
+
+Parameters live in [`examples/quickstart.toml`](examples/quickstart.toml).
+The [example interface guide](examples/README.md) explains every field,
+output column, and supported error case. One short trajectory illustrates the
+workflow; it is not an estimate of the paper's phase boundaries or exponents.
+
+## Scope
+
+**Included:** forced, normalized spin-1 projections; TT and dimer MPS models;
+NN-NNN statevector dynamics; string order, entanglement, Renyi entropy,
+preparation fidelity, and bond-dimension diagnostics; selected paper figures;
+source provenance; and small numerical regression tests.
+
+**Not included:** Born-rule sampling of measurement outcomes, a hardware
+implementation, the full raw-data archive, the paper's Python plotting/fitting
+pipeline, or a one-command reproduction of every paper figure. Some historic
+campaigns cannot be assigned an exact source revision from the available
+records. These limitations are [documented explicitly](FIGURE_PROVENANCE.md#important-limitations).
+
+## Code organization
+
+| Path | Role |
+| --- | --- |
+| [`examples/`](examples/) | Validated entry point with named configuration and non-overwriting outputs |
+| [`simulations/mps/`](simulations/mps/) | Trivial, dimer, fidelity, and bond-dimension campaign sources |
+| [`simulations/statevector/`](simulations/statevector/) | NN-NNN order, entropy, relaxation, and Renyi campaign sources |
+| [`tests/`](tests/) | Dense-reference checks, seeded trajectories, output contracts, and integrity checks |
+| [`docs/`](docs/) | Physics, figure explanations, and reproducibility notes |
+| [`vendor/QuantumCircuitsMPS2/`](vendor/QuantumCircuitsMPS2/) | Attributed local dependency snapshot |
+
+The original root files `AKLT_nnn_nn` and `NN-NNN Forced` remain unchanged
+for historical reference. The campaign sources are preserved rather than
+presented as a new unified package API. New examples and tests wrap them without
+changing their numerical algorithms.
+
+## MPS simulations and testing
+
+The root `Project.toml` and `Manifest.toml` lock the full validated environment.
+Installing it is heavier than running the lightweight example.
+
+```sh
+julia --project=. -e 'using Pkg; Pkg.instantiate(; allow_autoprecomp=false)'
+julia --project=. --threads=1 --compiled-modules=no --compile=min -O0 tests/mps_smoke.jl
+```
+
+The MPS test uses small TT/dimer systems; the compiler flags avoid lengthy cold
+cache compilation and are not production-performance recommendations.
+[RUNNING.md](RUNNING.md) contains campaign commands and argument conventions.
+Full statevectors scale as `3^L`; production-size sweeps can be expensive.
+
+[GitHub Actions](https://github.com/ka784-jpg/AKLT/actions/workflows/tests.yml)
+runs the example and statevector tests on Linux and Windows, plus small MPS
+tests on Linux. Tests cover projector algebra, normalized updates against a
+dense reference, repeated-seed trajectories, entropy units, input validation,
+output preservation, and source/figure checksums. See
+[VALIDATION.md](VALIDATION.md) for the locally observed results and limitations.
+
+## Attribution, license, and contributions
+
+Research code and documentation: [MIT](LICENSE). The vendored dependency keeps
+its [BSD 3-Clause license](vendor/QuantumCircuitsMPS2/LICENSE). Paper figures
+are excluded from the code license and retain their publication terms;
+see [NOTICE.md](NOTICE.md).
+
+Please cite the [paper](https://doi.org/10.48550/arXiv.2609.26941) when using
+the scientific results, and identify the repository commit when using this
+implementation. Bug reports should include the command, configuration, Julia
+version, and the first error message. See [CONTRIBUTING.md](CONTRIBUTING.md)
+for a focused test checklist.

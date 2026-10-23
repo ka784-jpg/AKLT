@@ -17,6 +17,39 @@ These are validation versions, not asserted historical production versions.
 | Collected-source hashes | 75 files checked; 69 unchanged copies and 6 documented portability edits |
 | Original two repository files | Unchanged |
 
+## Public example and documentation checks
+
+Also checked on 2026-10-23 using the separate, locked `examples/` environment:
+
+| Check | Result |
+| --- | --- |
+| README quickstart command | Completed; 25 signed spatial samples and 5 summary rows |
+| Repeated output, reference fixture, and preservation checks | 18 assertions passed |
+| Invalid configuration and CLI-option checks | 35 assertions passed |
+| Statevector tests in lightweight environment | All 65 numerical assertions passed |
+| Figure assets | Four copied PDFs matched source hashes; all four PNG previews visually checked |
+| Published integrity | 75 collected-source hashes and 8 figure-asset hashes checked |
+| Local Markdown file targets | Checked by `tests/repository_integrity.py` |
+
+The root and example manifests now pin the validated dependency resolutions.
+The new quickstart wraps the archived engine; no simulation or vendored
+algorithm was modified for this documentation/example update. Together with
+the 12 MPS checks above, the numerical suites contain 130 passing assertions.
+
+The [GitHub Actions workflow](.github/workflows/tests.yml) repeats the lightweight
+checks on Linux and Windows and the MPS checks on Linux. Its live status is
+available from the README badge; local results alone are not evidence that a
+hosted run completed.
+
+```sh
+julia --project=examples --startup-file=no --threads=1 examples/quickstart.jl
+julia --project=examples --startup-file=no --threads=1 tests/quickstart_smoke.jl
+julia --project=examples --startup-file=no --threads=1 tests/statevector_smoke.jl
+python tests/repository_integrity.py
+```
+
+## Original collection checks
+
 Commands:
 
 ```sh

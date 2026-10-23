@@ -1,5 +1,11 @@
 # Running small simulations
 
+For the shortest checked entry point, start with the
+[README quickstart](README.md#quickstart) and its [named-input guide](examples/README.md).
+The commands below expose the preserved campaign interfaces and use the full
+root environment. Julia 1.12.6 and the committed root manifest are the validated
+runtime/dependency combination.
+
 Run from the repository root after `Pkg.instantiate()`. Examples are small
 functional checks, not the production-size ensembles used for paper fits.
 Run different MPS source files in separate Julia processes because their

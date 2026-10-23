@@ -1,0 +1,43 @@
+{
+  "source": "Current manuscript figure assets",
+  "paper": "https://arxiv.org/abs/2609.26941",
+  "collected": "2026-10-23",
+  "figures": [
+    {
+      "figure": 1,
+      "manuscript_source": "PaperFigures/AKLT_circuit_diagramv5.pdf",
+      "pdf": "docs/figures/fig01_protocol.pdf",
+      "pdf_sha256": "cf118ed7c31485b22d8bad680da0102d5dd1dcec0d35e748eb3d6b5ed8d75f23",
+      "preview": "docs/figures/fig01_protocol.png",
+      "preview_sha256": "ffabcd78f4421a8a7e85a22edaf8981833ecf6e5fe776c409fd1849bb8d6881a",
+      "conversion": "pdftoppm -singlefile -scale-to 1800 -png; no content edits"
+    },
+    {
+      "figure": 4,
+      "manuscript_source": "PaperFigures2/SV_nnn_3panel_summary_large.pdf",
+      "pdf": "docs/figures/fig04_string_order.pdf",
+      "pdf_sha256": "644677089924121b784456c2b95ec62dd50044204311a278d321aafbdc8ce2e6",
+      "preview": "docs/figures/fig04_string_order.png",
+      "preview_sha256": "baddcb760219307ea2debc2a98391533a5e1aa14835a973408d2afc33b271e86",
+      "conversion": "pdftoppm -singlefile -scale-to 1800 -png; no content edits"
+    },
+    {
+      "figure": 6,
+      "manuscript_source": "PaperFigures2/SV_nnn_collapse_variance_3panel.pdf",
+      "pdf": "docs/figures/fig06_entanglement.pdf",
+      "pdf_sha256": "c8fbd34100272ea462ea87fd9e4bf3ba5a29721b58ff87b65dc5bd0b5fb8f04b",
+      "preview": "docs/figures/fig06_entanglement.png",
+      "preview_sha256": "070b5ac9ce7865b8265348cf3b4eff0bf26450de611555487be549829119d6dd",
+      "conversion": "pdftoppm -singlefile -scale-to 1800 -png; no content edits"
+    },
+    {
+      "figure": 11,
+      "manuscript_source": "PaperFigures2/sv_nnn_saturation_entropy_1x3_derivative_insets.pdf",
+      "pdf": "docs/figures/fig11_relaxation.pdf",
+      "pdf_sha256": "2f3b5edc6eab1ff865a24a7d8fb84b1a701f2b5c61fcd3b0ee2c212bc1c0fac6",
+      "preview": "docs/figures/fig11_relaxation.png",
+      "preview_sha256": "68658b3ec93feea52c513a4674bd4741586e1db7d23c79e0bcd852b83c3782e6",
+      "conversion": "pdftoppm -singlefile -scale-to 1800 -png; no content edits"
+    }
+  ]
+}
