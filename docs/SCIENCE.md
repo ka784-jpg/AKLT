@@ -43,13 +43,13 @@ the repository does not establish its asymptotic field theory.
 The NN string observable has one spin operator at each endpoint:
 
 ```math
-\mathcal{O}_{\mathrm{nn}}^{\mathrm{str}}(k)=\left\langle S_i^z\exp\!\left(i\pi\sum_{j=i+1}^{i+k-1}S_j^z\right)S_{i+k}^z\right\rangle.
+\mathcal{O}_{\mathrm{nn}}^{\mathrm{str}}(k)=\left\langle {S_i^z}\,\exp\!\left(i\pi\sum_{j=i+1}^{i+k-1}S_j^z\right)\,{S_{i+k}^z}\right\rangle.
 ```
 
 The NNN observable has **two adjacent endpoint spins on each side**:
 
 ```math
-\mathcal{O}_{\mathrm{nnn}}^{\mathrm{str}}(k)=\left\langle S_i^z S_{i+1}^z\exp\!\left(i\pi\sum_{j=i+2}^{i+k-2}S_j^z\right)S_{i+k-1}^z S_{i+k}^z\right\rangle.
+\mathcal{O}_{\mathrm{nnn}}^{\mathrm{str}}(k)=\left\langle {S_i^z}\,{S_{i+1}^z}\,\exp\!\left(i\pi\sum_{j=i+2}^{i+k-2}S_j^z\right)\,{S_{i+k-1}^z}\,{S_{i+k}^z}\right\rangle.
 ```
 
 These are different operators, not a change of spacing in the same endpoint
