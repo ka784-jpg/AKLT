@@ -1,0 +1,527 @@
+[
+  {
+    "file": "simulations/mps/trivial/run_zero_static.jl",
+    "source": ".codex_tmp/fig9_zero_repair/reference/zero/spins8_QMPS_zero_quiet",
+    "source_sha256": "ccb06073d29abcd023d0490ae998586045bc443097ae6a0afa28ff943505afab",
+    "packaged_sha256": "6d306f242797dfa892ed0a9bb68a63668e91455afd06f666b5e6b1c88176ff27",
+    "change": "Removed obsolete template launch line; runy body unchanged."
+  },
+  {
+    "file": "simulations/mps/trivial/run_zero_dynamics.jl",
+    "source": ".codex_tmp/amarel_zero_z/spins8_QMPS_zero_z_gatetimestep_fullspavg",
+    "source_sha256": "c00e949ee0d892cc3b9938615f170e4fb4d47752f13756aebd0d3eb231565d8a",
+    "packaged_sha256": "4009cf3c14974c5b6d4b56fda8a084b194c0c4fe6b65ab19ef2f4791455ca06c",
+    "change": "Removed obsolete template launch line; runy body unchanged."
+  },
+  {
+    "file": "simulations/mps/dimer/run_dimer_static_legacy.jl",
+    "source": "remote_edits/osg_dimer/spins8_QMPS_dimer",
+    "source_sha256": "77e8f0bab89f5d06db717ab81b8822597adbb7480e44b7528c3b66289c6bc0f4",
+    "packaged_sha256": "23aa810f909c651deff232cad06a83a7a35c6aadd5b2a69fe33f24e4ee88ea8a",
+    "change": "Removed obsolete template launch line; runy body unchanged."
+  },
+  {
+    "file": "simulations/mps/dimer/run_dimer_sector_cli.jl",
+    "source": ".codex_tmp/dimer_order_fullspavg_stage/run_dimer_sector_cli.jl",
+    "source_sha256": "4cfe20ed732ac3a832e8e8177baf4bb0bf632c24f916821bd84ad8747b5cdd2e",
+    "packaged_sha256": "4cfe20ed732ac3a832e8e8177baf4bb0bf632c24f916821bd84ad8747b5cdd2e",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "simulations/mps/dimer/run_dimer_circuitshift_entropy.jl",
+    "source": "remote_edits/amarel_dimer_even_5k_cpu/run_dimer_sector_cli_circuitshift.jl",
+    "source_sha256": "b3c10b5889ed35c2dccbda60f216fc349c72695d4e6e479f1fed26b152fe5c3e",
+    "packaged_sha256": "b3c10b5889ed35c2dccbda60f216fc349c72695d4e6e479f1fed26b152fe5c3e",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "simulations/mps/dimer/run_dimer_binder_only_cli.jl",
+    "source": "downloads/dimer_binder_master_20260901/campaign_archives/dimer_binder_only_10k_20260831/campaign_metadata/run_dimer_binder_only_cli.jl",
+    "source_sha256": "6afca70ea7aab447e9b1da98b39428a64e6ba0b6df5dd12a588e48b122fd4803",
+    "packaged_sha256": "6afca70ea7aab447e9b1da98b39428a64e6ba0b6df5dd12a588e48b122fd4803",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "simulations/mps/dimer/run_dimer_dynamics.jl",
+    "source": ".codex_tmp/dimer_z_template_patch/spins8_QMPS_dimer_z_gatetimestep_fullspavg",
+    "source_sha256": "f49b6250ba9264bbf6cd9d245a45cf25c03f3367db22021feadd42058ad37fb7",
+    "packaged_sha256": "21bc051bf7493b530f9869774fb4f0310bf2a4e064552365e4ddd2c52fd7a24d",
+    "change": "Removed obsolete template launch line; runy body unchanged."
+  },
+  {
+    "file": "simulations/mps/bond_dimension/run_zero_bond_batch.jl",
+    "source": ".codex_tmp/fig9_zero_repair/staged/run_zero_bond_batch.jl",
+    "source_sha256": "f2dc04c06a874addd32e0259be9bac3cf8494a63486bc9647d067a488e1ba2df",
+    "packaged_sha256": "f2dc04c06a874addd32e0259be9bac3cf8494a63486bc9647d067a488e1ba2df",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "simulations/mps/bond_dimension/dimer_bond.jl",
+    "source": ".codex_tmp/fig9_bond_repair/templates/spins8_QMPS_dimer_bond_only",
+    "source_sha256": "11f310ddff1bac561a24a4b28ae36a339aead1750013fdf856ebfd489cfa54ec",
+    "packaged_sha256": "a0965f1eb35bb3c401dd1586f8867f25a293ff60bb60979b304354472b9d730b",
+    "change": "Removed cluster-specific Pkg activation/instantiation preamble; simulation body unchanged."
+  },
+  {
+    "file": "simulations/mps/bond_dimension/nnn_bond.jl",
+    "source": ".codex_tmp/fig9_bond_repair/templates/spins8_QMPS_nnn_bond_only",
+    "source_sha256": "91cc425ba7dcf4d4e0640d9126f90d6700e9f06ed862a605a08f534855195209",
+    "packaged_sha256": "84c30abfe12e57cb155dbc20ebd134dfffef373f797e12bcbc0b13b6d87faaab",
+    "change": "Removed cluster-specific Pkg activation/instantiation preamble; simulation body unchanged."
+  },
+  {
+    "file": "simulations/mps/fidelity/run_fidelity_mps.jl",
+    "source": ".codex_tmp/fidelity_limits_mps_fidlim_20260718_203553_a7056d84/run_fidelity_mps.jl",
+    "source_sha256": "e0d0e1c79b4c2fabbee339e163ded749432f2ab727f4e2ef82d0e4982d5dd4c0",
+    "packaged_sha256": "e0d0e1c79b4c2fabbee339e163ded749432f2ab727f4e2ef82d0e4982d5dd4c0",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "simulations/mps/fidelity/run_fidelity_random_mps.jl",
+    "source": ".codex_tmp/fidelity_limits_mps_fidlim_20260718_203553_a7056d84/run_fidelity_random_mps.jl",
+    "source_sha256": "0bd443f44b88bc22661691d668395314c03170e92c2455bf7f4f28b3932d14f1",
+    "packaged_sha256": "0bd443f44b88bc22661691d668395314c03170e92c2455bf7f4f28b3932d14f1",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "simulations/mps/fidelity/tasks_endpoint.tsv",
+    "source": ".codex_tmp/fidelity_limits_mps_fidlim_20260718_203553_a7056d84/tasks.tsv",
+    "source_sha256": "b6f46e6bd0ae1823216f7d61019782db96c85a46ab833aa671be12096ce06d36",
+    "packaged_sha256": "b6f46e6bd0ae1823216f7d61019782db96c85a46ab833aa671be12096ce06d36",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "simulations/statevector/order/AKLTStatevectorOrderOnly.jl",
+    "source": ".codex_tmp/sv_nnn_order_fill10k_20260810_a568bec405f5/AKLTStatevectorOrderOnly.jl",
+    "source_sha256": "14b263fa002da1b90a6052be9972973aa97da93007273f0be9e62a841ad15c18",
+    "packaged_sha256": "14b263fa002da1b90a6052be9972973aa97da93007273f0be9e62a841ad15c18",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "simulations/statevector/order/run_order_worker.jl",
+    "source": ".codex_tmp/sv_nnn_order_fill10k_20260810_a568bec405f5/run_order_worker.jl",
+    "source_sha256": "a146e8a5f51bbdb5bc341ad15a75d1ccd9ce3ff1492c504ca3f1d40ff295c157",
+    "packaged_sha256": "a146e8a5f51bbdb5bc341ad15a75d1ccd9ce3ff1492c504ca3f1d40ff295c157",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "simulations/statevector/dynamics/AKLTStatevectorNNNZ.jl",
+    "source": "tmp/nnn_sv_z_stage/AKLTStatevectorNNNZ.jl",
+    "source_sha256": "d707c49c74a7b2e75dd113791e2d2b0b7693c504683847d1c487fbc24f3adaef",
+    "packaged_sha256": "d707c49c74a7b2e75dd113791e2d2b0b7693c504683847d1c487fbc24f3adaef",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "simulations/statevector/dynamics/run_sv_nnn_z_cli.jl",
+    "source": "tmp/nnn_sv_z_stage/run_sv_nnn_z_cli.jl",
+    "source_sha256": "f5987f36e4226df61683549a1549c2a9b45e7e105109a76f59ac07370c162dba",
+    "packaged_sha256": "f5987f36e4226df61683549a1549c2a9b45e7e105109a76f59ac07370c162dba",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "simulations/statevector/relaxation/AKLTStatevectorNNNZ.jl",
+    "source": "amarel_staging/nnn_everything_roundonly_cont15_amarel_20260827_4deb023e/source/AKLTStatevectorNNNZ.jl",
+    "source_sha256": "39325e4ed09efcd41688caaef6d55d4b7a1084e9030ded4b820fb0ac93da1930",
+    "packaged_sha256": "39325e4ed09efcd41688caaef6d55d4b7a1084e9030ded4b820fb0ac93da1930",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "simulations/statevector/relaxation/run_entropy.jl",
+    "source": "amarel_staging/nnn_everything_roundonly_cont15_amarel_20260827_4deb023e/run_entropy.jl",
+    "source_sha256": "cb863fb5f584591a6ba55957fe54939e12831cd68b7d23414ace6ccdeb381995",
+    "packaged_sha256": "cb863fb5f584591a6ba55957fe54939e12831cd68b7d23414ace6ccdeb381995",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "simulations/statevector/relaxation/run_order.jl",
+    "source": "amarel_staging/nnn_everything_roundonly_cont15_amarel_20260827_4deb023e/run_order.jl",
+    "source_sha256": "a85f5b92603d6559e6c842eacaf79600dd7e2a070249d7e8eac024f8cf3cf119",
+    "packaged_sha256": "a85f5b92603d6559e6c842eacaf79600dd7e2a070249d7e8eac024f8cf3cf119",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "simulations/statevector/renyi/AKLTStatevector.jl",
+    "source": ".codex_tmp/sv_nnn_alpha_renyi_extended_amarel_stage_20260807_0453f23f/AKLTStatevector.jl",
+    "source_sha256": "8e9a61c9b1620624f3b873c93508d45bf7c6f1a7eb5d44d04a59b947fe9e8896",
+    "packaged_sha256": "8e9a61c9b1620624f3b873c93508d45bf7c6f1a7eb5d44d04a59b947fe9e8896",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "simulations/statevector/renyi/run_sv_nnn_alpha_worker.jl",
+    "source": ".codex_tmp/sv_nnn_alpha_renyi_extended_amarel_stage_20260807_0453f23f/run_sv_nnn_alpha_worker.jl",
+    "source_sha256": "5e26724e06158223c2bd2b569e47aa44f812f058ead6c9f11c8d166af2299777",
+    "packaged_sha256": "5e26724e06158223c2bd2b569e47aa44f812f058ead6c9f11c8d166af2299777",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "simulations/statevector/static/AKLTStatevector.jl",
+    "source": "AKLT Project/New HPC Codes/AKLTStatevector.jl",
+    "source_sha256": "8e9a61c9b1620624f3b873c93508d45bf7c6f1a7eb5d44d04a59b947fe9e8896",
+    "packaged_sha256": "8e9a61c9b1620624f3b873c93508d45bf7c6f1a7eb5d44d04a59b947fe9e8896",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/Project.toml",
+    "source": "QuantumCircuitsMPS2/Ounwy/Project.toml",
+    "source_sha256": "117b13b8677ec89a19913b5e335c416a5aff0fa48b8fad6926c540003e8e570f",
+    "packaged_sha256": "117b13b8677ec89a19913b5e335c416a5aff0fa48b8fad6926c540003e8e570f",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/LICENSE",
+    "source": "QuantumCircuitsMPS2/Ounwy/LICENSE",
+    "source_sha256": "f20cb916a857b98f8695288b1fe4fb1e130218c36f63618046b5b3d57a20e8d2",
+    "packaged_sha256": "f20cb916a857b98f8695288b1fe4fb1e130218c36f63618046b5b3d57a20e8d2",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/QuantumCircuitsMPS2.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/QuantumCircuitsMPS2.jl",
+    "source_sha256": "02add3638c414a7cef7152608088885b8a85aa155baeffebfe44e3e655c202cd",
+    "packaged_sha256": "02add3638c414a7cef7152608088885b8a85aa155baeffebfe44e3e655c202cd",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/API/.gitkeep",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/API/.gitkeep",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packaged_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/API/context.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/API/context.jl",
+    "source_sha256": "d1d9667709564d19b19e165b94bd26fcf2b3e6a3e12beca5472b92cbf9544e87",
+    "packaged_sha256": "d1d9667709564d19b19e165b94bd26fcf2b3e6a3e12beca5472b92cbf9544e87",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/API/functional.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/API/functional.jl",
+    "source_sha256": "222f59a374304e849e19e16d50facc37e61cd4eb9e99ec827dcd00d262f77f88",
+    "packaged_sha256": "222f59a374304e849e19e16d50facc37e61cd4eb9e99ec827dcd00d262f77f88",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/API/imperative.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/API/imperative.jl",
+    "source_sha256": "8144633e8bab3cf69ae4af309a0ac4e2060d2860ee2b0ac12eed47f5a0c2a7a2",
+    "packaged_sha256": "8144633e8bab3cf69ae4af309a0ac4e2060d2860ee2b0ac12eed47f5a0c2a7a2",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/API/probabilistic.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/API/probabilistic.jl",
+    "source_sha256": "7f2fa111f40e37f480487b1fb29f39467a6c85a42ba5fe310b51be51c91ad87a",
+    "packaged_sha256": "7f2fa111f40e37f480487b1fb29f39467a6c85a42ba5fe310b51be51c91ad87a",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/API/simulation_styles/style_callback.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/API/simulation_styles/style_callback.jl",
+    "source_sha256": "9f5136ff47c9b00b50e3c7ab5891981f935a1678ffffe05dcc980a2125d4adcb",
+    "packaged_sha256": "9f5136ff47c9b00b50e3c7ab5891981f935a1678ffffe05dcc980a2125d4adcb",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/API/simulation_styles/style_imperative.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/API/simulation_styles/style_imperative.jl",
+    "source_sha256": "cfe11915934ca9127e147f9eabddb2b1cd601d8497f1553c74c0e1b8b26c4344",
+    "packaged_sha256": "cfe11915934ca9127e147f9eabddb2b1cd601d8497f1553c74c0e1b8b26c4344",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/API/simulation_styles/style_iterator.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/API/simulation_styles/style_iterator.jl",
+    "source_sha256": "ad948eafaeebeaaa6a732899d84b5df3387903c33871e78b3c6160b689e70715",
+    "packaged_sha256": "ad948eafaeebeaaa6a732899d84b5df3387903c33871e78b3c6160b689e70715",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Circuit/builder.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Circuit/builder.jl",
+    "source_sha256": "4d11523f7a5702f6477d9148e21c20e46a16f74498b68e83ecff04f6b6104ca8",
+    "packaged_sha256": "4d11523f7a5702f6477d9148e21c20e46a16f74498b68e83ecff04f6b6104ca8",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Circuit/Circuit.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Circuit/Circuit.jl",
+    "source_sha256": "679246cbfc24fa82ee4f35bd652f3705ae8c7ee1f6ca1b2f2bd975be7df98afc",
+    "packaged_sha256": "679246cbfc24fa82ee4f35bd652f3705ae8c7ee1f6ca1b2f2bd975be7df98afc",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Circuit/execute.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Circuit/execute.jl",
+    "source_sha256": "24d496f5526c1e2280a4a8da84188e48501b4d446ac414966c48e286e38ecb3f",
+    "packaged_sha256": "24d496f5526c1e2280a4a8da84188e48501b4d446ac414966c48e286e38ecb3f",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Circuit/expand.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Circuit/expand.jl",
+    "source_sha256": "878504571784e704ceac3c9a588cedb53226047ddc47226bad8350247110fb13",
+    "packaged_sha256": "878504571784e704ceac3c9a588cedb53226047ddc47226bad8350247110fb13",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Circuit/recording.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Circuit/recording.jl",
+    "source_sha256": "a300dfba76a3ef80497b045cc463ead5ad6161d6fb92c9bacf9d71a151820721",
+    "packaged_sha256": "a300dfba76a3ef80497b045cc463ead5ad6161d6fb92c9bacf9d71a151820721",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Circuit/types.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Circuit/types.jl",
+    "source_sha256": "e700ee4bd48f562e38522e49f815c96066947945b71f6e0e0c71b7653250a605",
+    "packaged_sha256": "e700ee4bd48f562e38522e49f815c96066947945b71f6e0e0c71b7653250a605",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Core/.gitkeep",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Core/.gitkeep",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packaged_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Core/apply.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Core/apply.jl",
+    "source_sha256": "61e4416b38099b5287b6856f1132b42000ef4a080a642db3d99a5e0ab593085c",
+    "packaged_sha256": "61e4416b38099b5287b6856f1132b42000ef4a080a642db3d99a5e0ab593085c",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Core/basis.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Core/basis.jl",
+    "source_sha256": "557d3011f6d26ba547e12b6fb764217673505971b569b2a9dd0a484e224d09ba",
+    "packaged_sha256": "557d3011f6d26ba547e12b6fb764217673505971b569b2a9dd0a484e224d09ba",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Core/rng.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Core/rng.jl",
+    "source_sha256": "f47e0d185f78319661e8472abd097efdcd5be678024dec181e0cfcdbb5d0455e",
+    "packaged_sha256": "f47e0d185f78319661e8472abd097efdcd5be678024dec181e0cfcdbb5d0455e",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Gates/.gitkeep",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Gates/.gitkeep",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packaged_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Gates/composite.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Gates/composite.jl",
+    "source_sha256": "09a39da55df874b979f7f4e0d6135dcb2c2d40322cfc0c296fb0e9e4babae8af",
+    "packaged_sha256": "09a39da55df874b979f7f4e0d6135dcb2c2d40322cfc0c296fb0e9e4babae8af",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Gates/Gates.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Gates/Gates.jl",
+    "source_sha256": "fc38e5f4073f45ca1556028b658c56533fcd866c7b13e298211d30700b1d679a",
+    "packaged_sha256": "fc38e5f4073f45ca1556028b658c56533fcd866c7b13e298211d30700b1d679a",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Gates/single_qubit.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Gates/single_qubit.jl",
+    "source_sha256": "6b2326a03e7130fee28d5520cf464ba284784e90268f1bc173ac71d87f67363a",
+    "packaged_sha256": "6b2326a03e7130fee28d5520cf464ba284784e90268f1bc173ac71d87f67363a",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Gates/spin_measurement.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Gates/spin_measurement.jl",
+    "source_sha256": "96aab34f8031b26c23c9a99c691413d0090d503921b930fe218a90afc9248d8f",
+    "packaged_sha256": "96aab34f8031b26c23c9a99c691413d0090d503921b930fe218a90afc9248d8f",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Gates/spin_projectors.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Gates/spin_projectors.jl",
+    "source_sha256": "a53ff518fd6be320e93c9a6f5c7b1c1d052e79c6c80fe41cee2b65aa23408647",
+    "packaged_sha256": "a53ff518fd6be320e93c9a6f5c7b1c1d052e79c6c80fe41cee2b65aa23408647",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Gates/two_qubit.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Gates/two_qubit.jl",
+    "source_sha256": "39c7f6bca13d643368c064e8cb66e669c9b355af5ca5ac96690b91afe128027d",
+    "packaged_sha256": "39c7f6bca13d643368c064e8cb66e669c9b355af5ca5ac96690b91afe128027d",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Geometry/.gitkeep",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Geometry/.gitkeep",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packaged_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Geometry/compound.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Geometry/compound.jl",
+    "source_sha256": "97053f2d8ec36da7ef68b35dcd760b2f88a1e0d0520172cb8d7841db08ce61f1",
+    "packaged_sha256": "97053f2d8ec36da7ef68b35dcd760b2f88a1e0d0520172cb8d7841db08ce61f1",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Geometry/compute_sites.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Geometry/compute_sites.jl",
+    "source_sha256": "bdcae7c6a6c483e6b03054f1ecdbff2c623c882a0d104be7384550aab805dfb1",
+    "packaged_sha256": "bdcae7c6a6c483e6b03054f1ecdbff2c623c882a0d104be7384550aab805dfb1",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Geometry/Geometry.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Geometry/Geometry.jl",
+    "source_sha256": "37649de8e98d1ae2810119cb564d586a5fad0b0f36e702876650dde6fe162895",
+    "packaged_sha256": "37649de8e98d1ae2810119cb564d586a5fad0b0f36e702876650dde6fe162895",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Geometry/GeometryHelpers.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Geometry/GeometryHelpers.jl",
+    "source_sha256": "f901700455c76c0d880e012d76d036099ed991f750b9a270943ae2d74d4e39cf",
+    "packaged_sha256": "f901700455c76c0d880e012d76d036099ed991f750b9a270943ae2d74d4e39cf",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Geometry/pointer.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Geometry/pointer.jl",
+    "source_sha256": "9e095f2815f6f4aedad61404c2d4221768497c4f91d58b10f1358916c4de317a",
+    "packaged_sha256": "9e095f2815f6f4aedad61404c2d4221768497c4f91d58b10f1358916c4de317a",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Geometry/staircase.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Geometry/staircase.jl",
+    "source_sha256": "ce560b6c8bc276113b4b5b55ee519a50465182526410236ca898dea2da18a562",
+    "packaged_sha256": "ce560b6c8bc276113b4b5b55ee519a50465182526410236ca898dea2da18a562",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Geometry/static.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Geometry/static.jl",
+    "source_sha256": "585dd5ccfef3a9a4138f6019466277e531e39a95b07373be02db179f6904c118",
+    "packaged_sha256": "585dd5ccfef3a9a4138f6019466277e531e39a95b07373be02db179f6904c118",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Observables/.gitkeep",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Observables/.gitkeep",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packaged_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Observables/bond_dimension.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Observables/bond_dimension.jl",
+    "source_sha256": "7150cc1a71453f905e2f2052b2ba49219eff8558fd7f5e85c128be5770cd8645",
+    "packaged_sha256": "7150cc1a71453f905e2f2052b2ba49219eff8558fd7f5e85c128be5770cd8645",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Observables/born.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Observables/born.jl",
+    "source_sha256": "fc6f20d9f34c4ffa43ae481a50a80fe596202fadeea39b1758db567604daaee1",
+    "packaged_sha256": "fc6f20d9f34c4ffa43ae481a50a80fe596202fadeea39b1758db567604daaee1",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Observables/dimer_order.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Observables/dimer_order.jl",
+    "source_sha256": "e0a1aac1cb7ef93a772c684349ea8d71be343699e9d4a0404051d641e8aa4db1",
+    "packaged_sha256": "e0a1aac1cb7ef93a772c684349ea8d71be343699e9d4a0404051d641e8aa4db1",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Observables/domain_wall.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Observables/domain_wall.jl",
+    "source_sha256": "b0d205422b5183385883669fdfb1577cfc787cd3f9b493ad09a89269e4d2a3b2",
+    "packaged_sha256": "b0d205422b5183385883669fdfb1577cfc787cd3f9b493ad09a89269e4d2a3b2",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Observables/entanglement.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Observables/entanglement.jl",
+    "source_sha256": "83cf3001153c3ff3b44264d6443422828a7ba096e8e941185bb36f61cdaadcfb",
+    "packaged_sha256": "83cf3001153c3ff3b44264d6443422828a7ba096e8e941185bb36f61cdaadcfb",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Observables/Observables.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Observables/Observables.jl",
+    "source_sha256": "acb0367d03889fff84727a5f3f61e625b814da32c8179df75922fcecb5442762",
+    "packaged_sha256": "acb0367d03889fff84727a5f3f61e625b814da32c8179df75922fcecb5442762",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Observables/SelfAveraging.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Observables/SelfAveraging.jl",
+    "source_sha256": "13acf60e37788d6dd316645b3c1c23f93ecae929040731d5abb8e03ee3e5de1c",
+    "packaged_sha256": "13acf60e37788d6dd316645b3c1c23f93ecae929040731d5abb8e03ee3e5de1c",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Observables/string_order.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Observables/string_order.jl",
+    "source_sha256": "7d3e436d1ef7a6ac8e90c78005559adbb62123b80925aa74f3b09d1534653ead",
+    "packaged_sha256": "7d3e436d1ef7a6ac8e90c78005559adbb62123b80925aa74f3b09d1534653ead",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Plotting/ascii.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Plotting/ascii.jl",
+    "source_sha256": "dd022113d49b7aec1ab8a50849bc12a070c30a2c3b00ad03acfdd64fb732b842",
+    "packaged_sha256": "dd022113d49b7aec1ab8a50849bc12a070c30a2c3b00ad03acfdd64fb732b842",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/Plotting/Plotting.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/Plotting/Plotting.jl",
+    "source_sha256": "849f495ebf3bdb3f3760a78151cbccdfc5f85c1e24f3d0a46983ea9c3c496d79",
+    "packaged_sha256": "849f495ebf3bdb3f3760a78151cbccdfc5f85c1e24f3d0a46983ea9c3c496d79",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/State/.gitkeep",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/State/.gitkeep",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packaged_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/State/initialization.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/State/initialization.jl",
+    "source_sha256": "4bce016b56c5a0c7fbbc5c4e0c02ea7e5c656aee562032caf5045322f27a276c",
+    "packaged_sha256": "4bce016b56c5a0c7fbbc5c4e0c02ea7e5c656aee562032caf5045322f27a276c",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/src/State/State.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/src/State/State.jl",
+    "source_sha256": "3a00f7d8d33843a76759d747e14a7fa38b4819d31a8ee962285d3b32e09f559c",
+    "packaged_sha256": "3a00f7d8d33843a76759d747e14a7fa38b4819d31a8ee962285d3b32e09f559c",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "vendor/QuantumCircuitsMPS2/ext/QuantumCircuitsMPSLuxorExt.jl",
+    "source": "QuantumCircuitsMPS2/Ounwy/ext/QuantumCircuitsMPSLuxorExt.jl",
+    "source_sha256": "884abdff475836b508419c7fed965eaea1058a664ead20851f62f6af9c2d2def",
+    "packaged_sha256": "884abdff475836b508419c7fed965eaea1058a664ead20851f62f6af9c2d2def",
+    "change": "Unchanged copy."
+  },
+  {
+    "file": "simulations/statevector/renyi/tasks_renyi.csv",
+    "source": ".codex_tmp/sv_nnn_alpha_renyi_extended_amarel_stage_20260807_0453f23f/params/tasks.csv",
+    "source_sha256": "8b3fec57fe1760efa4d7e258db1f50bc925dc78172620eefcb8bffa5c4ba0eb9",
+    "packaged_sha256": "8b3fec57fe1760efa4d7e258db1f50bc925dc78172620eefcb8bffa5c4ba0eb9",
+    "change": "Unchanged copy."
+  }
+]

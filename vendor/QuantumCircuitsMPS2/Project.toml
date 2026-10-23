@@ -1,0 +1,29 @@
+name = "QuantumCircuitsMPS2"
+uuid = "ed2bb82c-fd6e-4581-809a-ddc7a64756b9"
+version = "0.1.0"
+
+[deps]
+ITensorMPS = "0d1a4710-d33b-49a5-8f18-73bdf49b47e2"
+ITensors = "9136182c-28ba-11e9-034c-db9fb085ebd5"
+JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+Luxor = "ae8d54c2-7ccd-5906-9d76-62fc9837b5bc"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+
+[weakdeps]
+Luxor = "ae8d54c2-7ccd-5906-9d76-62fc9837b5bc"
+
+[extensions]
+QuantumCircuitsMPSLuxorExt = "Luxor"
+
+[compat]
+ITensorMPS = "0.3"
+ITensors = "0.9"
+Luxor = "4"
+julia = "1.9"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]

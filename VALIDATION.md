@@ -1,0 +1,38 @@
+# Local validation
+
+Checked on Windows with Julia 1.12.6 on 2026-10-23.
+The newly resolved environment used ITensors 0.9.32, ITensorMPS 0.3.45,
+DelimitedFiles 1.9.1, and the included QuantumCircuitsMPS2 0.1.0 snapshot.
+These are validation versions, not asserted historical production versions.
+
+| Check | Result |
+| --- | --- |
+| Environment instantiation | Passed |
+| Julia parsing of collected simulation and dependency sources | 65 files passed |
+| Dense-reference projector checks | 36 assertions passed |
+| Repeated-seed order-only trajectories | 9 assertions passed |
+| Renyi entropy conventions | 14 assertions passed |
+| Relaxation output and Renyi trajectory smoke checks | 6 assertions passed |
+| Small TT and dimer MPS trajectories | 12 assertions passed |
+| Collected-source hashes | 75 files checked; 69 unchanged copies and 6 documented portability edits |
+| Original two repository files | Unchanged |
+
+Commands:
+
+```sh
+julia --project=. --startup-file=no --threads=1 -e 'using Pkg; Pkg.instantiate(; allow_autoprecomp=false)'
+julia --startup-file=no --threads=1 tests/parse_sources.jl
+julia --project=. --startup-file=no --threads=1 tests/statevector_smoke.jl
+julia --project=. --startup-file=no --threads=1 --compiled-modules=no --compile=min -O0 tests/mps_smoke.jl
+```
+
+The first MPS attempt was stopped during lengthy cold dependency precompilation;
+the final command above bypassed cache compilation and passed. No production
+cluster jobs or large ensembles were launched. GPU paths, every archived
+runner/parameter combination, final fitted critical exponents, and complete
+bit-for-bit paper reproduction have not been validated here.
+
+Short-distance NNN channels are intentionally left as NaN by the legacy
+order-only implementation when their endpoints do not meet its distance
+condition. The finite-output regression uses L=10, where both NNN separations
+are defined; it does not change this behavior in the collected source.

@@ -1,0 +1,3 @@
+# Preserve the collected simulation/dependency snapshots byte for byte.
+simulations/** -text
+vendor/** -text

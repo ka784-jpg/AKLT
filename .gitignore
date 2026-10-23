@@ -1,0 +1,6 @@
+/Manifest.toml
+/results/
+/test-output/
+*.ji
+.DS_Store
+__pycache__/
