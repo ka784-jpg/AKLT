@@ -10,8 +10,12 @@ projections change string order, dimer order, and entanglement.
 For two spin-1 sites, total spin is `J=0,1,2`. The AKLT update retains the
 `J=0` and `J=1` subspaces and removes `J=2`:
 
-$$P_{\mathrm{AKLT}} = I-P^{J=2} = P^{J=0}+P^{J=1},\qquad
-|\psi'\rangle=\frac{P_{\mathrm{AKLT}}|\psi\rangle}{\|P_{\mathrm{AKLT}}|\psi\rangle\|}.$$
+```math
+\begin{aligned}
+P_{\mathrm{AKLT}} &= I-P^{J=2} = P^{J=0}+P^{J=1},\\
+|\psi'\rangle &= \frac{P_{\mathrm{AKLT}}|\psi\rangle}{\left\|P_{\mathrm{AKLT}}|\psi\rangle\right\|}.
+\end{aligned}
+```
 
 If `B = S_i . S_j`, the same projector is `I - B/2 - B^2/6`.
 It is Hermitian, idempotent, and rank four. These are executable invariants in
@@ -38,14 +42,18 @@ the repository does not establish its asymptotic field theory.
 
 The NN string observable has one spin operator at each endpoint:
 
-$$\mathcal O_{\rm nn}^{\rm str}(k)=
-\left\langle S_i^z\exp\!\left(i\pi\sum_{j=i+1}^{i+k-1}S_j^z\right)S_{i+k}^z\right\rangle.$$
+```math
+\mathcal O_{\rm nn}^{\rm str}(k)=
+\left\langle S_i^z\exp\!\left(i\pi\sum_{j=i+1}^{i+k-1}S_j^z\right)S_{i+k}^z\right\rangle.
+```
 
 The NNN observable has **two adjacent endpoint spins on each side**:
 
-$$\mathcal O_{\rm nnn}^{\rm str}(k)=
+```math
+\mathcal O_{\rm nnn}^{\rm str}(k)=
 \left\langle S_i^z S_{i+1}^z\exp\!\left(i\pi\sum_{j=i+2}^{i+k-2}S_j^z\right)
-S_{i+k-1}^z S_{i+k}^z\right\rangle.$$
+S_{i+k-1}^z S_{i+k}^z\right\rangle.
+```
 
 These are different operators, not a change of spacing in the same endpoint
 formula. The paper plots the magnitude of the averaged signed observable,
