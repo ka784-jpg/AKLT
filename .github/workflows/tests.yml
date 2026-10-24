@@ -41,6 +41,10 @@ jobs:
       - name: Run every-sweep NN-NNN example
         run: julia --project=examples --startup-file=no examples/quickstart.jl --config examples/nnn/config.toml --output results/nnn_gallery
       - name: Install plotting dependency
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - name: Install Matplotlib
         run: python -m pip install -r examples/requirements-plot.txt
       - name: Check example plots and saved data
         run: python tests/plot_examples.py
