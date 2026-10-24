@@ -1,0 +1,5 @@
+L = 4
+p_competing = 0.34
+seed = 1234
+sweeps = 16
+cutoff = 1e-10

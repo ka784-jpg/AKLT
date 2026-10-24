@@ -23,6 +23,14 @@ reference output is a regression target, not paper data or a substitute for
 finite-size/ensemble convergence. It is compared numerically, not by a
 cross-platform bitwise-equality claim.
 
+The [model gallery](../examples/README.md#model-gallery) adds TT and dimer MPS
+traces plus an every-sweep NN-NNN trace. Each has a committed configuration,
+CSV, metadata including engine hash, and generated PNG. The MPS traces use the
+root environment; their small-system outputs illustrate conventions, not
+convergence or phase boundaries. Floating-point differences and truncation
+can affect MPS traces, so saved curves are not a cross-platform bitwise promise.
+Plotting alone uses Python 3.11+ and the pinned Matplotlib requirement.
+
 ## 2. Physics and behavior checks
 
 The tests exercise independent dense embeddings of the local projector,
@@ -39,7 +47,7 @@ README badge. Local observations are in [VALIDATION.md](../VALIDATION.md).
 `SOURCE_MANIFEST.json` records 75 collected files, original and packaged hashes,
 and the six portability-only edits made during collection. It is deliberately
 not rewritten when new documentation, examples, or tests are added.
-`docs/figures/manifest.json` records the four selected PDFs and rendered PNGs.
+`docs/figures/manifest.json` records the six selected PDFs and rendered PNGs.
 The Python-standard-library integrity test checks both collections.
 
 ```sh

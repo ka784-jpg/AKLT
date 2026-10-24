@@ -1,5 +1,25 @@
 # Local validation
 
+## Model galleries and results-page expansion: 2026-10-24
+
+- Ran the preserved TT and dimer MPS engines at `L=4` for 16 sweeps each,
+  plus the NN-NNN exact-statevector engine at `L=10` for all 24 sweeps.
+  Each gallery saves the actual single-trajectory CSV and source-hash metadata.
+- Rendered and visually inspected all three example plots using Python and
+  Matplotlib 3.11.2. The plotting tests passed, including wrong-model,
+  invalid-data, and no-overwrite cases (3 test methods).
+- The MPS example-wrapper contract suite passed 28 assertions with explicit
+  synthetic runner output; the separate real runs above exercise the engines.
+- Copied and visually checked Figures 2 and 3 from the manuscript, without
+  content changes. Integrity checks now cover 75 archived source hashes and
+  12 paper-asset hashes, plus links in nested example pages.
+- No archived simulation source, vendored algorithm, or manuscript was edited.
+  The CI workflow also runs the new real examples and plotting checks.
+
+The small traces are illustrative and finite-size; they are not paper ensemble
+data or new estimates of phase boundaries. The earlier validation below is
+retained as a dated record rather than relabeled as a new run.
+
 Checked on Windows with Julia 1.12.6 on 2026-10-23.
 The newly resolved environment used ITensors 0.9.32, ITensorMPS 0.3.45,
 DelimitedFiles 1.9.1, and the included QuantumCircuitsMPS2 0.1.0 snapshot.

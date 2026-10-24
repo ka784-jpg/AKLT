@@ -1,4 +1,23 @@
-# Small, reproducible NN-NNN example
+# Simulation examples
+
+## Model gallery
+
+Each model has a paper reference, a small generated plot, saved numerical
+outputs, and commands to rerun or replot it. The paper figures and the example
+plots are explicitly distinguished.
+
+| Model | Paper reference | Runnable example |
+| --- | --- | --- |
+| Trivial / zero | Figure 2 | [String order and entropy](trivial/README.md) |
+| Dimer | Figure 3 | [String order, dimer order, and entropy](dimer/README.md) |
+| NN-NNN | Figures 4, 6, 11 | [NN and NNN string order](nnn/README.md) |
+
+The full [results guide](../docs/RESULTS.md) explains the panels and maps them
+to the underlying simulation code. Plotting uses Python 3.11+ with
+`python -m pip install -r examples/requirements-plot.txt`; the simulations
+themselves use Julia. Plotting the committed CSVs needs no Julia installation.
+
+## Small, reproducible NN-NNN quickstart
 
 This interface calls the preserved order-only statevector engine. It does not
 replace the campaign launchers or alter their algorithms. It adds named inputs,

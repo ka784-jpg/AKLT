@@ -1,0 +1,17 @@
+boundary = "periodic"
+engine = "simulations/statevector/order/AKLTStatevectorOrderOnly.jl"
+engine_sha256 = "14b263fa002da1b90a6052be9972973aa97da93007273f0be9e62a841ad15c18"
+initial_state = "uniform product state"
+julia_version = "1.12.6"
+p_nn = 0.54
+summary_convention = "signed spatial mean, then absolute value; one trajectory only"
+time_unit = "one sweep = L local projection slots"
+trajectories = 1
+
+[parameters]
+L = 10
+p_nnn = 0.46
+sample_every = 1
+sample_start = 1
+seed = 1234
+sweeps = 24

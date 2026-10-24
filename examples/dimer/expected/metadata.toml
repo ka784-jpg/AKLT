@@ -1,0 +1,22 @@
+boundary = "periodic"
+dimer_convention = "signed alternating mean of nearest-neighbor spin correlations; magnitude plotted"
+dimer_sector = "odd"
+engine = "simulations/mps/dimer/run_dimer_sector_cli.jl"
+engine_sha256 = "4cfe20ed732ac3a832e8e8177baf4bb0bf632c24f916821bd84ad8747b5cdd2e"
+entropy_unit = "bits"
+halfcut_start_mode = "half"
+initial_state = "uniform product state"
+julia_version = "1.12.6"
+model = "dimer"
+p_nn = 0.6599999999999999
+summary_convention = "NN: signed mean over L/2 origins, then absolute value; one trajectory"
+time_unit = "one sweep = L local update slots"
+trajectories = 1
+trajectory_seed = 2123664121
+
+[parameters]
+L = 4
+cutoff = 1.0e-10
+p_competing = 0.34
+seed = 1234
+sweeps = 16

@@ -27,7 +27,7 @@ def main():
         check_hash(figure["pdf"], figure["pdf_sha256"])
         check_hash(figure["preview"], figure["preview_sha256"])
 
-    documents = list(ROOT.glob("*.md")) + list((ROOT / "docs").rglob("*.md")) + list((ROOT / "examples").glob("*.md"))
+    documents = list(ROOT.glob("*.md")) + list((ROOT / "docs").rglob("*.md")) + list((ROOT / "examples").rglob("*.md"))
     link_count = 0
     for document in documents:
         for target in re.findall(r"\]\(([^)\s]+)\)", document.read_text(encoding="utf-8")):

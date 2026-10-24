@@ -23,6 +23,17 @@ consistent with an extended critical regime between two distinct endpoint
 states. The figure is from the paper, not from the small example below.
 [Interpretation, original PDF, and source mapping](docs/RESULTS.md#string-order-and-phase-boundaries-figure-4).
 
+## Explore all three models
+
+The [expanded results guide](docs/RESULTS.md) includes the trivial and dimer
+transitions as well as the NN-NNN model. Each model has a paper figure, a
+panel-by-panel explanation, and a runnable example with its own generated plot.
+
+| Trivial / zero: paper Fig. 2 | Dimer: paper Fig. 3 | NN-NNN: paper Fig. 4 |
+| --- | --- | --- |
+| [![Trivial transition.](docs/figures/fig02_trivial.png)](docs/RESULTS.md#spt-to-trivial-product-state-figure-2) | [![Dimer transition.](docs/figures/fig03_dimer.png)](docs/RESULTS.md#spt-to-dimerized-state-figure-3) | [![NN-NNN transition.](docs/figures/fig04_string_order.png)](docs/RESULTS.md#string-order-and-phase-boundaries-figure-4) |
+| [Example plot and code](examples/trivial/README.md) | [Example plot and code](examples/dimer/README.md) | [Example plot and code](examples/nnn/README.md) |
+
 ## Quickstart
 
 Install [Julia](https://julialang.org/downloads/) **1.12.6** and Git, then run
@@ -109,6 +120,8 @@ julia --project=. --threads=1 --compiled-modules=no --compile=min -O0 tests/mps_
 The MPS test uses small TT/dimer systems; the compiler flags avoid lengthy cold
 cache compilation and are not production-performance recommendations.
 [RUNNING.md](RUNNING.md) contains campaign commands and argument conventions.
+The [trivial](examples/trivial/README.md) and [dimer](examples/dimer/README.md)
+examples use this full environment and include checked CSV-to-plot commands.
 Full statevectors scale as `3^L`; production-size sweeps can be expensive.
 
 [GitHub Actions](https://github.com/ka784-jpg/AKLT/actions/workflows/tests.yml)
